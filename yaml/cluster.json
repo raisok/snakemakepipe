@@ -1,0 +1,39 @@
+{
+    "__default__" :
+    {
+        "queue"     : "st.q",
+        "nCPUs"     : "1",
+        "memory"    : "1G",
+        "name"      : "JOBNAME.{rule}.{wildcards}",
+        "output"    : "logs/cluster/{rule}.{wildcards}.out",
+        "error"     : "logs/cluster/{rule}.{wildcards}.err"
+    },
+
+    "geneexp":
+    {
+        "memory"    : "4G",
+        "nCPUs"     : "8"
+    },
+    "alignment":
+    {
+        "memory"    : "8G",
+        "nCPUs"     : "24",
+    },
+    "trinitystat" :
+    {
+        "memory"    : "1G",
+        "nCPUs"     : "1"
+    },
+    "trinity_denovo" :
+    {
+        "memory"    : "40G",
+        "nCPUs"     : "24"
+    },
+    "bowtie2unigene" :
+    {
+        "memory"    : "8G",
+        "nCPUs"     : "24"
+    }
+}
+
+# snakemake -j 10 --cluster-config cluster.json --cluster 'qsub -l vf={cluster.memory},num_proc={cluster.nCPUs} -cwd -q {cluster.queue} -P P18Z10200N0170 -binding linear:{cluster.nCPUs} '

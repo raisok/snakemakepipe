@@ -1,0 +1,70 @@
+project: /nascngb/gccnt2/ST_BI/yuey/result/
+ruledir: /ldfssz1/ST_BIGDATA/USER/yueyao/bin/snakemakepipe/rnaseq
+outdir: /nascngb/gccnt2/ST_BI/yuey/rnaseq
+database:
+  genome:
+    - /ifs4/BC_PUB/biosoft/pipeline/RNA/RNA_RNAref/RNA_RNAref_version5.0_beta/Database/hg19/GenomeHisat2Index/chrALL
+    - /ifs4/BC_PUB/biosoft/pipeline/RNA/RNA_RNAref/RNA_RNAref_version5.0_beta/Database/hg19/GenomeGatkIndex/chrALL.sort.fa
+  gene:
+    - /ifs4/BC_PUB/biosoft/pipeline/RNA/RNA_RNAref/RNA_RNAref_version5.0_beta/Database/hg19/GeneBowtie2Index/refMrna.fa
+    - /ifs4/BC_PUB/biosoft/pipeline/RNA/RNA_RNAref/RNA_RNAref_version5.0_beta/Database/hg19/Annotation_kegg76/refMrna.fa.gene2mark
+
+software:
+  soapnuke:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/SOAPnuke
+    - "-l 15 -q 0.2 -n 0.05 -i -Q 1 -5 0  -c 0 -f AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -r AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA"
+  fqcheck:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/fqcheck
+  hisat2:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/hisat2-2.0.4/hisat2
+    - "--no-discordant --no-mixed -I 1 -X 1000"
+  bowtie2:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/bowtie2-2.2.5/
+    - "-q --sensitive --dpad 0 --gbar 99999999 --mp 1,1 --np 1 --score-min L,0,-0.1 -I 1 -X 1000 --no-mixed --no-discordant -k 200"
+  rsem:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/rsem-1.2.12/
+  scriptbin:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAseq
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAref
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAdenovo
+  java:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/jre1.8.0_45/bin/java
+  samtools:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/samtools-0.1.19/samtools
+  picard:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/picard-tools-1.54
+  trinity:
+    - /ldfssz1/ST_BIGDATA/USER/yueyao/software/trinityrnaseq-Trinity-v2.4.0/Trinity
+    - "--seqType fq --max_memory 50G --min_contig_length 250 --CPU 24 --min_kmer_cov 2 --min_glue 3"
+samples:
+  sample1_CL200042513_L01:
+    - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample1_CL200042513_L01/result/split_read.1_trim.fq.gz
+    - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample1_CL200042513_L01/result/split_read.2_trim.fq.gz
+  sample2_CL200042513_L02:
+    - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample2_CL200042513_L02/result/split_read.1_trim.fq.gz
+    - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample2_CL200042513_L02/result/split_read.2_trim.fq.gz
+
+step:
+  filter: 0
+  alignment: 1
+  geneexp: 1
+  genediff: 0
+  goenrichment: 0
+  keggenrichment: 0
+  wgcna: 0
+
+diff_para :
+  methods:
+    DEGseq: '-foldChange 2 -qValue 0.001'
+    DEseq2: '-log2 1 -padj 0.05'
+    NOIseq: '-log2 1 -p 0.8'
+    EBseq: '-log2 1 -ppee 0.05'
+    Possion: '-log2 1 -fdr 0.001'
+  repcompare:
+    - UHRR-VS-HBRR
+  norepcompare:
+    - UHRR1-VS-HBRR1
+    - UHRR2-VS-HBRR2
+  group:
+    UHRR: UHRR1,UHRR2,UHRR3
+    HBRR: HBRR1,HBRR2,HBRR3

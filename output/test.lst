@@ -1,0 +1,9 @@
+GeneDiff_Method = DEseq2
+DEseq2_Group = HBRR:HBRR1,HBRR2,HBRR3 UHRR:UHRR1,UHRR2,UHRR3
+DEseq2_VS = HBRR&UHRR
+DEseq2_Filter = -log2 1 -padj 0.05
+
+GeneDiff_Method = NOIseq
+NOIseq_Group = HBRR:HBRR1 UHRR:UHRR1,UHRR2,UHRR3
+NOIseq_VS = HBRR&UHRR
+NOIseq_Filter = -log2 1 -p 0.8

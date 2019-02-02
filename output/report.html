@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.14: http://docutils.sourceforge.net/" />
+<title>An example variant calling workflow</title>
+<style type="text/css">
+
+/**
+Credits for the colors and font selection go to the Twitter Bootstrap framework.
+*/
+
+
+body {
+    color: rgb(51, 51, 51);
+    font-size: 10pt;
+    padding-top: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 140%;
+}
+
+h3 {
+    font-size: 130%;
+}
+
+h4 {
+    font-size: 120%;
+}
+
+h5 {
+    font-size: 110%;
+}
+
+h6 {
+    font-size: 100%;
+}
+
+div#attachments {
+    display: inline-block;
+    color: gray;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 4px 4px 4px 4px;
+    padding: 0px;
+}
+
+div#attachments dt {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div#attachments dd p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div#attachments :target dt {
+    font-weight: bold;
+}
+
+div#attachments :target a {
+    color: rgb(70, 136, 71);
+}
+
+
+h1.title {
+    text-align: center;
+    font-size: 180%;
+}
+
+div.document {
+    position: relative;
+    background: white;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 4px 4px 4px 4px;
+}
+
+div.document:after {
+    content: "snakemake report";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    padding: 3px 7px;
+    background-color: #f5f5f5;
+    border: 1px solid rgb(221, 221, 221);
+    color: #9da0a4;
+    font-weight: bold;
+    font-size: 12pt;
+    border-radius: 0 0 0 4px;
+}
+
+div.document p {
+    text-align: justify;
+}
+
+div#metadata {
+    text-align: right;
+}
+
+table.docutils {
+    border: none;
+    border-collapse: collapse;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    text-align: center;
+}
+
+table.docutils th {
+    border: none;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    padding: 5px;
+}
+
+table.docutils td {
+    border: none;
+    padding: 5px;
+}
+
+table.docutils th:last-child, td:last-child {
+    text-align: left;
+}
+
+table.docutils th:first-child, td:first-child {
+    text-align: right;
+}
+
+table.docutils th:only-child, td:only-child {
+    text-align: center;
+}
+
+table.docutils.footnote {
+    border: none;
+    text-align: left;
+}
+
+a {
+    color: rgb(0, 136, 204);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(0, 85, 128);
+    text-decoration: underline;
+}
+
+
+div.figure {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+img {
+    max-width: 100%;
+}
+
+p.caption {
+    font-style: italic;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="an-example-variant-calling-workflow">
+<h1 class="title">An example variant calling workflow</h1>
+
+<p>Reads were mapped to the Yeast reference genome ang variants were called jointly with SAMtools/BCFtools.</p>
+<p>The resulted in 64 variants (see Table <a class="reference internal" href="#t1">T1</a>).</p>
+<div class="docutils container" id="attachments">
+<blockquote>
+<div class="docutils container" id="t1">
+<dl class="docutils">
+<dt>T1:</dt>
+<dd><span class="raw-html"><a href="data:text/plain;charset=utf8;filename=test.yaml;base64,cHJvamVjdDogL2xkZnNzejEvU1RfQklHREFUQS9VU0VSL3l1ZXlhby8xOC53ZGwvDQpydWxlZGlyOiAvaHdmc3N6NS9TVF9CSUdEQVRBL1VTRVIveXVleWFvL3NuYWtlbWFrZS90ZXN0L3NuYWtlbWFrZS1leGFtcGxlDQpvdXRkaXI6IC9od2Zzc3o1L1NUX0JJR0RBVEEvVVNFUi95dWV5YW8vc25ha2VtYWtlL3Rlc3Qvc25ha2VtYWtlLWV4YW1wbGUvcmVzdWx0DQpkYXRhYmFzZToNCiAgZ2Vub21lOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX0RhdGFiYXNlL2hnMTkvR2Vub21lSGlzYXQySW5kZXgvY2hyQUxMDQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9TT0ZUV0FSRS9STkFfRGF0YWJhc2UvaGcxOS9HZW5vbWVHYXRrSW5kZXgvY2hyQUxMLnNvcnQuZmENCiAgZ2VuZToNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1NPRlRXQVJFL1JOQV9EYXRhYmFzZS9oZzE5L0dlbmVCb3d0aWUySW5kZXgvcmVmTXJuYS5mYQ0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX0RhdGFiYXNlL2hnMTkvQW5ub3RhdGlvbl9rZWdnNzkvcmVmTXJuYS5mYS5nZW5lMm1hcmsNCg0Kc29mdHdhcmU6DQogIHNvYXBudWtlOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX1NvZnRXYXJlL1NPQVBudWtlDQogICAgLSAiLWwgMTUgLXEgMC4yIC1uIDAuMDUgLWkgLVEgMSAtNSAwICAtYyAwLjIgLWYgQUdBVENHR0FBR0FHQ0FDQUNHVENUR0FBQ1RDQ0FHVENBQyAtciBBR0FUQ0dHQUFHQUdDR1RDR1RHVEFHR0dBQUFHQUdUR1RBIg0KICBmcWNoZWNrOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX1NvZnRXYXJlL2ZxY2hlY2sNCiAgaGlzYXQyOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX1NvZnRXYXJlL2hpc2F0Mi0yLjAuNC9oaXNhdDINCiAgICAtICItLXBocmVkNjQgLS1zZW5zaXRpdmUgLS1uby1kaXNjb3JkYW50IC0tbm8tbWl4ZWQgLUkgMSAtWCAxMDAwIg0KICBib3d0aWUyOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX1NvZnRXYXJlL2Jvd3RpZTItMi4yLjUvDQogICAgLSAiLXEgLS1zZW5zaXRpdmUgLS1kcGFkIDAgLS1nYmFyIDk5OTk5OTk5IC0tbXAgMSwxIC0tbnAgMSAtLXNjb3JlLW1pbiBMLDAsLTAuMSAtSSAxIC1YIDEwMDAgLS1uby1taXhlZCAtLW5vLWRpc2NvcmRhbnQgLWsgMjAwIg0KICByc2VtOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BX1NvZnRXYXJlL3JzZW0tMS4yLjEyLw0KICBzY3JpcHRiaW46DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9TT0ZUV0FSRS9STkFzZXENCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1NPRlRXQVJFL1JOQXJlZg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vU09GVFdBUkUvUk5BZGVub3ZvDQogIGphdmE6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9TT0ZUV0FSRS9STkFfU29mdFdhcmUvanJlMS44LjBfNDUvYmluL2phdmENCiAgc2FtdG9vbHM6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9TT0ZUV0FSRS9STkFfU29mdFdhcmUvc2FtdG9vbHMtMC4xLjE5L3NhbXRvb2xzDQogIHBpY2FyZDoNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1NPRlRXQVJFL1JOQV9Tb2Z0V2FyZS9waWNhcmQtdG9vbHMtMS41NA0KICB0cmluaXR5Og0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9VU0VSL3l1ZXlhby9zb2Z0d2FyZS90cmluaXR5cm5hc2VxLVRyaW5pdHktdjIuNC4wL1RyaW5pdHkNCiAgICAtICItLXNlcVR5cGUgZnEgLS1tYXhfbWVtb3J5IDUwRyAtLW1pbl9jb250aWdfbGVuZ3RoIDI1MCAtLUNQVSAyNCAtLW1pbl9rbWVyX2NvdiAyIC0tbWluX2dsdWUgMyINCnNhbXBsZXM6DQogIEhCUlIxOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vV09SS0ZMT1cvc3Vid29ya2Zsb3dfdGVzdF9yYXdfZGF0YS9ybmFzZXFfdGVzdDIvaHVtYW5fdGVzdC9STkFzZXEvRmlsdGVyX1NPQVBudWtlL0hCUlIxX0xpYi9IQlJSMV9MaWIucmF3ZGF0YS4xLmZxLmd6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9XT1JLRkxPVy9zdWJ3b3JrZmxvd190ZXN0X3Jhd19kYXRhL3JuYXNlcV90ZXN0Mi9odW1hbl90ZXN0L1JOQXNlcS9GaWx0ZXJfU09BUG51a2UvSEJSUjFfTGliL0hCUlIxX0xpYi5yYXdkYXRhLjIuZnEuZ3oNCiAgSEJSUjI6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9XT1JLRkxPVy9zdWJ3b3JrZmxvd190ZXN0X3Jhd19kYXRhL3JuYXNlcV90ZXN0Mi9odW1hbl90ZXN0L1JOQXNlcS9GaWx0ZXJfU09BUG51a2UvSEJSUjJfTGliL0hCUlIyX0xpYi5yYXdkYXRhLjEuZnEuZ3oNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1dPUktGTE9XL3N1YndvcmtmbG93X3Rlc3RfcmF3X2RhdGEvcm5hc2VxX3Rlc3QyL2h1bWFuX3Rlc3QvUk5Bc2VxL0ZpbHRlcl9TT0FQbnVrZS9IQlJSMl9MaWIvSEJSUjJfTGliLnJhd2RhdGEuMi5mcS5neg0KICBIQlJSMzoNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1dPUktGTE9XL3N1YndvcmtmbG93X3Rlc3RfcmF3X2RhdGEvcm5hc2VxX3Rlc3QyL2h1bWFuX3Rlc3QvUk5Bc2VxL0ZpbHRlcl9TT0FQbnVrZS9IQlJSM19MaWIvSEJSUjNfTGliLnJhd2RhdGEuMS5mcS5neg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vV09SS0ZMT1cvc3Vid29ya2Zsb3dfdGVzdF9yYXdfZGF0YS9ybmFzZXFfdGVzdDIvaHVtYW5fdGVzdC9STkFzZXEvRmlsdGVyX1NPQVBudWtlL0hCUlIzX0xpYi9IQlJSM19MaWIucmF3ZGF0YS4yLmZxLmd6DQogIFVIUlIxOg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vV09SS0ZMT1cvc3Vid29ya2Zsb3dfdGVzdF9yYXdfZGF0YS9ybmFzZXFfdGVzdDIvaHVtYW5fdGVzdC9STkFzZXEvRmlsdGVyX1NPQVBudWtlL1VIUlIxX0xpYi9VSFJSMV9MaWIucmF3ZGF0YS4xLmZxLmd6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9XT1JLRkxPVy9zdWJ3b3JrZmxvd190ZXN0X3Jhd19kYXRhL3JuYXNlcV90ZXN0Mi9odW1hbl90ZXN0L1JOQXNlcS9GaWx0ZXJfU09BUG51a2UvVUhSUjFfTGliL1VIUlIxX0xpYi5yYXdkYXRhLjIuZnEuZ3oNCiAgVUhSUjI6DQogICAgLSAvbGRmc3N6MS9TVF9CSUdEQVRBL1BNTy9XT1JLRkxPVy9zdWJ3b3JrZmxvd190ZXN0X3Jhd19kYXRhL3JuYXNlcV90ZXN0Mi9odW1hbl90ZXN0L1JOQXNlcS9GaWx0ZXJfU09BUG51a2UvVUhSUjJfTGliL1VIUlIyX0xpYi5yYXdkYXRhLjEuZnEuZ3oNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1dPUktGTE9XL3N1YndvcmtmbG93X3Rlc3RfcmF3X2RhdGEvcm5hc2VxX3Rlc3QyL2h1bWFuX3Rlc3QvUk5Bc2VxL0ZpbHRlcl9TT0FQbnVrZS9VSFJSMl9MaWIvVUhSUjJfTGliLnJhd2RhdGEuMi5mcS5neg0KICBVSFJSMzoNCiAgICAtIC9sZGZzc3oxL1NUX0JJR0RBVEEvUE1PL1dPUktGTE9XL3N1YndvcmtmbG93X3Rlc3RfcmF3X2RhdGEvcm5hc2VxX3Rlc3QyL2h1bWFuX3Rlc3QvUk5Bc2VxL0ZpbHRlcl9TT0FQbnVrZS9VSFJSM19MaWIvVUhSUjNfTGliLnJhd2RhdGEuMS5mcS5neg0KICAgIC0gL2xkZnNzejEvU1RfQklHREFUQS9QTU8vV09SS0ZMT1cvc3Vid29ya2Zsb3dfdGVzdF9yYXdfZGF0YS9ybmFzZXFfdGVzdDIvaHVtYW5fdGVzdC9STkFzZXEvRmlsdGVyX1NPQVBudWtlL1VIUlIzX0xpYi9VSFJSM19MaWIucmF3ZGF0YS4yLmZxLmd6DQpzdGVwOg0KICBmaWx0ZXI6IDENCiAgYWxpZ25tZW50OiAxDQogIGdlbmVleHA6IDENCiAgZ29lbnJpY2htZW50OiAxDQogIGtlZ2dlbnJpY2htZW50OiAxDQogIHdnY25hOiAx" download="test.yaml" draggable="true">test.yaml</a></span></dd>
+</dl>
+</div>
+</blockquote>
+</div>
+<div class="docutils container" id="metadata">
+2018-12-26</div>
+</div>
+</body>
+</html>

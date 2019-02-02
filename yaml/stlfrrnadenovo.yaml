@@ -1,0 +1,34 @@
+project: /ldfssz1/ST_BIGDATA/USER/yueyao/18.wdl/
+ruledir: /ldfssz1/ST_BIGDATA/USER/yueyao/bin/snakemakepipe/rnaseq
+outdir: /nascngb/gccnt2/ST_BI/yuey/rnadenovo
+
+software:
+  soapnuke:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/SOAPnuke
+    - "-l 15 -q 0.2 -n 0.05 -i -Q 1 -5 0  -c 0.2 -f AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -r AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA"
+  bowtie2:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/bowtie2-2.2.5/
+    - "-q --sensitive --dpad 0 --gbar 99999999 --mp 1,1 --np 1 --score-min L,0,-0.1 -I 1 -X 1000 --no-mixed --no-discordant -k 200"
+  java:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/jre1.8.0_45/bin/java
+  samtools:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/samtools-0.1.19/samtools
+  picard:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/picard-tools-1.54
+  trinity:
+    - /ldfssz1/ST_BIGDATA/USER/yueyao/software/trinityrnaseq-Trinity-v2.4.0/Trinity
+    - "--seqType fq --max_memory 50G --min_contig_length 250 --CPU 24"
+samples:
+  Sample1_add:
+    - /nascngb/gccnt2/ST_BI/yuey/data/Sample1.add.1.fq.gz
+    - /nascngb/gccnt2/ST_BI/yuey/data/Sample1.add.2.fq.gz
+  Sample3_add:
+    - /nascngb/gccnt2/ST_BI/yuey/data/Sample3.add.1.fq.gz
+    - /nascngb/gccnt2/ST_BI/yuey/data/Sample3.add.2.fq.gz
+  sample1_CL200042513_L01:
+  - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample1_CL200042513_L01/result/split_read.1_trim.fq.gz
+  - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample1_CL200042513_L01/result/split_read.2_trim.fq.gz
+  sample2_CL200042513_L02:
+  - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample2_CL200042513_L02/result/split_read.1_trim.fq.gz
+  - /nascngb/gccnt2/ST_BI/hugang/stlfr_2019_1_25/sample2_CL200042513_L02/result/split_read.2_trim.fq.gz
+

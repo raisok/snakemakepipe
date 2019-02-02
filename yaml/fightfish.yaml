@@ -1,0 +1,90 @@
+project: /nascngb/gccnt2/ST_BI/fightingfish/
+ruledir: /hwfssz5/ST_BIGDATA/USER/yueyao/snakemake/test/snakemake-example
+outdir: /nascngb/gccnt2/ST_BI/fightingfish/result
+database:
+  genome:
+    - /hwfssz5/ST_BIGDATA/USER/makailong/fightingfish/Betta_splendens_v1.1.fa
+    - /hwfssz5/ST_BIGDATA/USER/makailong/fightingfish/Betta_splendens_v1.1.fa
+  gene:
+    - /nascngb/gccnt2/ST_BI/fightingfish/database/Betta_splendens_v1.1.cds.fa
+    - /nascngb/gccnt2/ST_BI/fightingfish/database/gene2tr
+
+software:
+  soapnuke:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/SOAPnuke
+    - "-l 15 -q 0.2 -n 0.05 -i -Q 1 -5 0  -c 0 -f AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -r AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA"
+  fqcheck:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/fqcheck
+  hisat2:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/hisat2-2.0.4/hisat2
+    - "--phred64 --sensitive --no-discordant --no-mixed -I 1 -X 1000"
+  bowtie2:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/bowtie2-2.2.5/
+    - "--phred64 -q --sensitive --dpad 0 --gbar 99999999 --mp 1,1 --np 1 --score-min L,0,-0.1 -I 1 -X 1000 --no-mixed --no-discordant -k 200"
+  rsem:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/rsem-1.2.12/
+  scriptbin:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAseq
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAref
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNAdenovo
+  java:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/jre1.8.0_45/bin/java
+  samtools:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/samtools-0.1.19/samtools
+  picard:
+    - /ldfssz1/ST_BIGDATA/PMO/SOFTWARE/RNA_SoftWare/picard-tools-1.54
+  trinity:
+    - /ldfssz1/ST_BIGDATA/USER/yueyao/software/trinityrnaseq-Trinity-v2.4.0/Trinity
+    - "--seqType fq --max_memory 50G --min_contig_length 250 --CPU 24 --min_kmer_cov 2 --min_glue 3"
+samples:
+  150526_I266_FCC6MLGACXX_L7_RZEBptbTDAARRAAPEI-18:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAARRAAPEI-18/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAARRAAPEI-18_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAARRAAPEI-18/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAARRAAPEI-18_2.fq.gz
+  150526_I266_FCC6MLGACXX_L7_RZEBptbTDAAQRAAPEI-17:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAAQRAAPEI-17/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAAQRAAPEI-17_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAAQRAAPEI-17/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAAQRAAPEI-17_2.fq.gz
+  150526_I266_FCC6MLGACXX_L6_RZEBptbTDAAPRAAPEI-16:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000747/150526_I266_FCC6MLGACXX_L6_RZEBptbTDAAPRAAPEI-16/150526_I266_FCC6MLGACXX_L6_RZEBptbTDAAPRAAPEI-16_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000747/150526_I266_FCC6MLGACXX_L6_RZEBptbTDAAPRAAPEI-16/150526_I266_FCC6MLGACXX_L6_RZEBptbTDAAPRAAPEI-16_2.fq.gz
+  150526_I266_FCC6MLGACXX_L4_RZEBptbTDAALRAAPEI-12:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAALRAAPEI-12/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAALRAAPEI-12_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAALRAAPEI-12/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAALRAAPEI-12_2.fq.gz
+  150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAIRAAPEI-8:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAIRAAPEI-8/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAIRAAPEI-8_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAIRAAPEI-8/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAIRAAPEI-8_2.fq.gz
+  150526_I266_FCC6MLGACXX_L7_RZEBptbTDAATRAAPEI-22:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAATRAAPEI-22/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAATRAAPEI-22_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAATRAAPEI-22/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAATRAAPEI-22_2.fq.gz
+  150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAJRAAPEI-9:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAJRAAPEI-9/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAJRAAPEI-9_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAJRAAPEI-9/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAJRAAPEI-9_2.fq.gz
+  150526_I266_FCC6MLGACXX_L7_RZEBptbTDAASRAAPEI-19:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAASRAAPEI-19/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAASRAAPEI-19_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000748/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAASRAAPEI-19/150526_I266_FCC6MLGACXX_L7_RZEBptbTDAASRAAPEI-19_2.fq.gz
+  150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAKRAAPEI-11:
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAKRAAPEI-11/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAKRAAPEI-11_1.fq.gz
+    - /zfssz6/tape_recovery/201810/fastaq/fqdata80/data/F13ZHQYJSY1409_ZEBptbT/RCDNAPEP00000746/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAKRAAPEI-11/150526_I266_FCC6MLGACXX_L4_RZEBptbTDAAKRAAPEI-11_2.fq.gz
+step:
+  filter: 1
+  alignment: 0
+  geneexp: 0
+  genediff: 0
+  goenrichment: 0
+  keggenrichment: 0
+  wgcna: 0
+
+diff_para :
+  methods:
+    DEGseq: '-foldChange 2 -qValue 0.001'
+    DEseq2: '-log2 1 -padj 0.05'
+    NOIseq: '-log2 1 -p 0.8'
+    EBseq: '-log2 1 -ppee 0.05'
+    Possion: '-log2 1 -fdr 0.001'
+  repcompare:
+    - UHRR-VS-HBRR
+  norepcompare:
+    - UHRR1-VS-HBRR1
+    - UHRR2-VS-HBRR2
+  group:
+    UHRR: UHRR1,UHRR2,UHRR3
+    HBRR: HBRR1,HBRR2,HBRR3
